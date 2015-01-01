@@ -7,5 +7,4 @@ branches:
 only:
 - master
 
-script:
-mvn install
+install: mvn clean package
