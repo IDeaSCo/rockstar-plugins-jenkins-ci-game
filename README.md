@@ -37,37 +37,37 @@ To see who is winning the build game, there is a leader board that is shown on t
 ####Rules
 The rules of the game are:
 
- - -10 points for breaking a build
+ - -10 points for breaking a build - *Badge* - Build Breaker
  - 0 points for breaking a build that already was broken
- - +1 points for doing a build with no failures (unstable builds gives no points)
- - -1 points for each new test failures
- - +1 points for each new test that passes
+ - +1 points for doing a build with no failures (unstable builds gives no points) - *Badge* - Frequent Code Checker
+ - -1 points for each new test failures - *Badge* - Build Breaker
+ - +1 points for each new test that passes - *Badge* - Test Champ
 Rules that depend on other plugins:
 
 #####PMD Plugin. [link](https://wiki.jenkins-ci.org/display/JENKINS/PMD+Plugin)
- - Adding/removing a HIGH priority warning = -5/+5. 
- - Adding/removing a MEDIUM priority warning = -3/+3. 
- - Adding/removing a LOW priority warning = -1/+1.
+ - Adding/removing a HIGH priority warning = -5/+5. - *Badge* - Code Violator/Code Saviour
+ - Adding/removing a MEDIUM priority warning = -3/+3. - *Badge* - Code Violator/Code Saviour
+ - Adding/removing a LOW priority warning = -1/+1.  - *Badge* - Code Violator/Code Saviour
 
 #####Task Scanner Plugin. [link](https://wiki.jenkins-ci.org/display/JENKINS/Task+Scanner+Plugin)
- - Adding/removing a HIGH priority task = -5/+5. 
- - Adding/removing a MEDIUM priority task = -3/+3. 
- - Adding/removing a LOW priority task = -1/+1
+ - Adding/removing a HIGH priority task = -5/+5.  - *Badge* - Code Violator/Code Saviour 
+ - Adding/removing a MEDIUM priority task = -3/+3.  - *Badge* - Code Violator/Code Saviour 
+ - Adding/removing a LOW priority task = -1/+1  - *Badge* - Code Violator/Code Saviour
 
 #####Violations Plugin. [link](https://wiki.jenkins-ci.org/display/JENKINS/Violations+Plugin)
- - Adding/removing a violation = -1/+1. 
- - Adding/removing a duplication violation = -5/+5.
+ - Adding/removing a violation = -1/+1.  - *Badge* - Code Violator/Code Saviour 
+ - Adding/removing a duplication violation = -5/+5.  - *Badge* - Code Violator/Code Saviour
 
 #####FindBugs Plugin. [link](https://wiki.jenkins-ci.org/display/JENKINS/FindBugs+Plugin)
- - Adding/removing a HIGH priority findbugs warning = -5/+5. 
- - Adding/removing a MEDIUM priority findbugs warning = -3/+3. 
- - Adding/removing a LOW priority findbugs warning = -1/+1
+ - Adding/removing a HIGH priority findbugs warning = -5/+5.  - *Badge* - Code Violator/Code Saviour 
+ - Adding/removing a MEDIUM priority findbugs warning = -3/+3.  - *Badge* - Code Violator/Code Saviour 
+ - Adding/removing a LOW priority findbugs warning = -1/+1  - *Badge* - Code Violator/Code Saviour
 
 #####Warnings Plugin. [link](https://wiki.jenkins-ci.org/display/JENKINS/Warnings+Plugin)
- - Adding/removing a compiler warning = -1/+1.
+ - Adding/removing a compiler warning = -1/+1.  - *Badge* - Code Violator/Code Saviour
 
 #####Checkstyle Plugin. [link](https://wiki.jenkins-ci.org/display/JENKINS/Checkstyle+Plugin)
- - Adding/removing a checkstyle warning = -1/+1.
+ - Adding/removing a checkstyle warning = -1/+1.  - *Badge* - Code Violator/Code Saviour
 
 
 ###Adding rules to the game
