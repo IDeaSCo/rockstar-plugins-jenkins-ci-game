@@ -14,9 +14,9 @@
   <url>http://wiki.jenkins-ci.org/display/JENKINS/The+Continuous+Integration+Game+plugin</url>
   
   <scm>
-    <connection>scm:git:github.com:jenkinsci/ci-game-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:jenkinsci/ci-game-plugin.git</developerConnection>
-    <url>https://github.com/jenkinsci/ci-game-plugin</url>
+    <connection>scm:git:github.com:IDeaSCo/rockstar-plugins-jenkins-ci-game.git</connection>
+    <developerConnection>scm:git:git@github.com:IDeaSCo/rockstar-plugins-jenkins-ci-game.git</developerConnection>
+    <url>https://github.com/IDeaSCo/rockstar-plugins-jenkins-ci-game</url>
     <tag>HEAD</tag>
   </scm>  
 
