@@ -8,3 +8,13 @@ only:
 - master
 
 install: mvn clean package
+
+deploy:
+  provider: releases
+  api-key: "6148c234fd62f626501004ae5867566bb25211df"
+  file: "1.21/ci-game-1.21.hpi"
+  skip_cleanup: true
+  on:
+    tags: true
+    all_branches: true
+    repo: IDeaSCo/rockstar-plugins-jenkins-ci-game
