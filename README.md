@@ -1,4 +1,4 @@
-Jenkins ci-game plugin
+Extention of Jenkins ci-game plugin for [Rock Star](https://github.com/IDeaSCo/rockstar) App.
 ==============
 
 This plugin introduces a game where users gets point on improving the builds.The plugin is a simple proof of concept of the Build game that was created by [Clint Shank](http://clintshank.javadevelopersjournal.com/ci_build_game.htm). The idea behind the game is to decrease the number of times a build becomes broken. To win the game the developers have to commit code that is compiling and keep adding unit tests.
