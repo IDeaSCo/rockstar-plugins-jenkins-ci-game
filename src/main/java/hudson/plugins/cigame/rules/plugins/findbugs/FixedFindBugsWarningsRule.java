@@ -2,6 +2,7 @@ package hudson.plugins.cigame.rules.plugins.findbugs;
 
 import hudson.model.AbstractBuild;
 import hudson.plugins.analysis.util.model.Priority;
+import hudson.plugins.cigame.model.Badge;
 import hudson.plugins.cigame.model.RuleResult;
 import java.util.Collection;
 
@@ -21,7 +22,7 @@ public class FixedFindBugsWarningsRule extends AbstractFindBugsWarningsRule {
     		int fixedWarnings = previousAnnotations - currentAnnotations;
     		return new RuleResult<Integer>(fixedWarnings * pointsForEachFixedWarning, 
                     Messages.FindBugsRuleSet_FixedWarningsRule_Count(Math.abs(fixedWarnings), priority.name()),
-                    fixedWarnings);
+                    fixedWarnings, Badge.CODE_SAVIOUR);
     	}
     	
 		return EMPTY_RESULT;

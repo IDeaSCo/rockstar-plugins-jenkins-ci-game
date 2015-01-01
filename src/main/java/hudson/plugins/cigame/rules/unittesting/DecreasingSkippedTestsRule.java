@@ -1,5 +1,6 @@
 package hudson.plugins.cigame.rules.unittesting;
 
+import hudson.plugins.cigame.model.Badge;
 import jenkins.model.Jenkins;
 import hudson.plugins.cigame.GameDescriptor;
 import hudson.plugins.cigame.model.RuleResult;
@@ -34,7 +35,7 @@ public class DecreasingSkippedTestsRule extends AbstractSkippedTestsRule {
             skippedTestDiff = -skippedTestDiff;
             return new RuleResult<Integer>(skippedTestDiff * getPoints(),
                                            Messages.UnitTestingRuleSet_DecreasingSkippedRule_Count(skippedTestDiff),
-                                           skippedTestDiff);
+                                           skippedTestDiff, Badge.TEST_CHAMP);
         }
         return null;
     }

@@ -1,5 +1,6 @@
 package hudson.plugins.cigame.rules.unittesting;
 
+import hudson.plugins.cigame.model.Badge;
 import jenkins.model.Jenkins;
 import hudson.plugins.cigame.GameDescriptor;
 import hudson.plugins.cigame.model.RuleResult;
@@ -34,7 +35,7 @@ public class IncreasingFailedTestsRule extends AbstractFailedTestsRule {
         if (failingTestDiff > 0) {
             return new RuleResult<Integer>(failingTestDiff * getPoints(), 
                     Messages.UnitTestingRuleSet_IncreasingFailedRule_Count(failingTestDiff),
-                    failingTestDiff); 
+                    failingTestDiff, Badge.TEST_CHAMP);
         }
         return null;
     }

@@ -1,6 +1,7 @@
 package hudson.plugins.cigame.rules.unittesting;
 
 import hudson.plugins.cigame.GameDescriptor;
+import hudson.plugins.cigame.model.Badge;
 import hudson.plugins.cigame.model.RuleResult;
 import jenkins.model.Jenkins;
 
@@ -34,7 +35,7 @@ public class IncreasingPassedTestsRule extends AbstractPassedTestsRule {
         if (passedTestDiff > 0) {
             return new RuleResult<Integer>(passedTestDiff * getPoints(),
                                            Messages.UnitTestingRuleSet_IncreasingPassedRule_Count(passedTestDiff),
-                                           passedTestDiff);
+                                           passedTestDiff, Badge.TEST_CHAMP);
         }
         return null;
     }

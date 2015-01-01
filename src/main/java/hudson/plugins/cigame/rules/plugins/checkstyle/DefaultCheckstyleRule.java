@@ -8,6 +8,7 @@ import hudson.model.AbstractBuild;
 import hudson.model.Result;
 import hudson.plugins.checkstyle.CheckStyleResultAction;
 import hudson.plugins.cigame.model.AggregatableRule;
+import hudson.plugins.cigame.model.Badge;
 import hudson.plugins.cigame.model.RuleResult;
 import hudson.plugins.cigame.util.ActionRetriever;
 
@@ -37,10 +38,10 @@ public class DefaultCheckstyleRule implements AggregatableRule<Integer> {
         
         if (newWarnings > 0) {
             return new RuleResult<Void>(score, 
-            		Messages.CheckstyleRuleSet_DefaultRule_NewWarningsCount(newWarnings)); 
+            		Messages.CheckstyleRuleSet_DefaultRule_NewWarningsCount(newWarnings), null, Badge.CODE_VIOLATOR);
         } else if (newWarnings < 0) {
         	return new RuleResult<Integer>(score, 
-                    Messages.CheckstyleRuleSet_DefaultRule_FixedWarningsCount(newWarnings * -1));
+                    Messages.CheckstyleRuleSet_DefaultRule_FixedWarningsCount(newWarnings * -1), null, Badge.CODE_SAVIOUR);
         }
         return RuleResult.EMPTY_INT_RESULT;
 	}
@@ -78,12 +79,12 @@ public class DefaultCheckstyleRule implements AggregatableRule<Integer> {
     	if (numberOfNewWarnings > 0) {
             return new RuleResult<Integer>(numberOfNewWarnings * pointsForAddingAWarning, 
                     Messages.CheckstyleRuleSet_DefaultRule_NewWarningsCount(numberOfNewWarnings),
-                    numberOfNewWarnings);
+                    numberOfNewWarnings, Badge.CODE_VIOLATOR);
         }
         if (numberOfNewWarnings < 0) {
             return new RuleResult<Integer>((numberOfNewWarnings * -1) * pointsForRemovingAWarning, 
                     Messages.CheckstyleRuleSet_DefaultRule_FixedWarningsCount(numberOfNewWarnings * -1),
-                    numberOfNewWarnings);
+                    numberOfNewWarnings,Badge.CODE_SAVIOUR);
         }
         
 		return RuleResult.EMPTY_INT_RESULT;

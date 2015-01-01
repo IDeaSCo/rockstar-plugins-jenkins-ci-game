@@ -28,6 +28,7 @@ public class GameDescriptor extends BuildStepDescriptor<Publisher> {
     
     private transient RuleBook rulebook;
     private boolean namesAreCaseSensitive = true;
+    private String ideasRockStarURI= "";
     
     private int passedTestIncreasingPoints = 1;
     private int passedTestDecreasingPoints = 0;
@@ -97,6 +98,13 @@ public class GameDescriptor extends BuildStepDescriptor<Publisher> {
         this.namesAreCaseSensitive = namesAreCaseSensitive;
     }
 
+    public String getIdeasRockStarURI() {
+        return ideasRockStarURI;
+    }
+
+    public void setIdeasRockStarURI(String ideasRockStarURI) {
+        this.ideasRockStarURI = ideasRockStarURI;
+    }
     @Override
     public boolean isApplicable(Class<? extends AbstractProject> arg0) {
         return true;

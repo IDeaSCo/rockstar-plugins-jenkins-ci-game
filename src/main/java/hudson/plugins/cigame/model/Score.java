@@ -13,12 +13,14 @@ public class Score implements Comparable<Score> {
     private final String ruleName;
     private final double value;
     private final String description;
+    private final String badge;
 
-    public Score(String rulesetName, String ruleName, double points, String pointDescription) {
+    public Score(String rulesetName, String ruleName, double points, String pointDescription, String badge) {
         this.rulesetName = rulesetName;
         this.ruleName = ruleName;
         this.value = points;
-        description = pointDescription;
+        this.description = pointDescription;
+        this.badge = badge;
     }
 
     @Exported
@@ -49,5 +51,9 @@ public class Score implements Comparable<Score> {
             return description.compareToIgnoreCase(o.description);
         }
         return (int) Math.round(o.value - value);
+    }
+
+    public String getBadge(){
+        return badge;
     }
 }

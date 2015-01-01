@@ -3,6 +3,7 @@ package hudson.plugins.cigame.rules.plugins.findbugs;
 import java.util.Collection;
 import hudson.model.AbstractBuild;
 import hudson.plugins.analysis.util.model.Priority;
+import hudson.plugins.cigame.model.Badge;
 import hudson.plugins.cigame.model.RuleResult;
 
 public class NewFindBugsWarningsRule extends AbstractFindBugsWarningsRule {
@@ -28,7 +29,7 @@ public class NewFindBugsWarningsRule extends AbstractFindBugsWarningsRule {
         
         if (score != 0.0) {
             return new RuleResult<Void>(score, 
-            		Messages.FindBugsRuleSet_NewWarningsRule_Count(Math.abs(newWarnings), priority.name())); 
+            		Messages.FindBugsRuleSet_NewWarningsRule_Count(Math.abs(newWarnings), priority.name()),null, Badge.CODE_VIOLATOR);
         }
         return EMPTY_RESULT;
 	}
@@ -40,7 +41,7 @@ public class NewFindBugsWarningsRule extends AbstractFindBugsWarningsRule {
     		int newWarnings = currentAnnotations - previousAnnotations;
     		return new RuleResult<Integer>(newWarnings * pointsForEachNewWarning, 
                     Messages.FindBugsRuleSet_NewWarningsRule_Count(Math.abs(newWarnings), priority.name()),
-                    newWarnings);
+                    newWarnings, Badge.CODE_VIOLATOR);
     	}
     	
 		return EMPTY_RESULT;

@@ -1,28 +1,21 @@
 package hudson.plugins.cigame;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
 import hudson.Launcher;
-import hudson.model.AbstractBuild;
-import hudson.model.AbstractProject;
-import hudson.model.Action;
-import hudson.model.BuildListener;
-import hudson.model.Result;
-import hudson.model.User;
+import hudson.model.*;
 import hudson.plugins.cigame.model.RuleBook;
+import hudson.plugins.cigame.model.Score;
 import hudson.plugins.cigame.model.ScoreCard;
 import hudson.scm.ChangeLogSet;
 import hudson.scm.ChangeLogSet.Entry;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Notifier;
 
+import java.io.IOException;
+import java.util.*;
+
 public class GamePublisher extends Notifier {
 
+    AbstractBuild upstreamBuild = null;
     @Override
     public GameDescriptor getDescriptor() {
         return (GameDescriptor) super.getDescriptor();
@@ -40,9 +33,9 @@ public class GamePublisher extends Notifier {
 
     @Override
     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher,
-            BuildListener listener) throws InterruptedException, IOException {
+                           BuildListener listener) throws InterruptedException, IOException {
 
-        perform(build, getDescriptor().getRuleBook(), getDescriptor().getNamesAreCaseSensitive(), listener);
+        perform(build, getDescriptor().getRuleBook(), getDescriptor().getNamesAreCaseSensitive(), listener, getDescriptor().getIdeasRockStarURI());
         return true;
     }
 
@@ -55,46 +48,96 @@ public class GamePublisher extends Notifier {
      * @return true, if any user scores were updated; false, otherwise
      * @throws IOException thrown if there was a problem setting a user property
      */
-    boolean perform(AbstractBuild<?, ?> build, RuleBook ruleBook, boolean usernameIsCasesensitive, BuildListener listener) throws IOException {
+    boolean perform(AbstractBuild<?, ?> build, RuleBook ruleBook, boolean usernameIsCasesensitive, BuildListener listener, String ideasRockStarURI) throws IOException {
         ScoreCard sc = new ScoreCard();
         sc.record(build, ruleBook, listener);
 
         ScoreCardAction action = new ScoreCardAction(sc, build);
         build.getActions().add(action);
-        
+
         List<AbstractBuild<?, ?>> accountableBuilds = new ArrayList<AbstractBuild<?,?>>();
         accountableBuilds.add(build);
-        
+
+        upstreamBuild = getUpstreamByCause(build);
+        if(upstreamBuild!= null) {
+            accountableBuilds.add(upstreamBuild);
+            ChangeLogSet<? extends Entry> changeSet = upstreamBuild.getChangeSet();
+            if(listener != null ) listener.getLogger().append("[ci-game] UpStream Build ID: " + upstreamBuild.getId()+ "\n");
+            if(listener != null ) listener.getLogger().append("[ci-game] UpStream Display Name: " + upstreamBuild.getFullDisplayName()+ "\n");
+            if(listener != null ) listener.getLogger().append("[ci-game] Is UpStream Change Set Empty: " + changeSet.isEmptySet() + "\n");
+
+        }
+
         // also add all previous aborted builds:
         AbstractBuild<?, ?> previousBuild = build.getPreviousBuild();
         while (previousBuild != null && previousBuild.getResult() == Result.ABORTED) {
-        	accountableBuilds.add(previousBuild);
-        	previousBuild = previousBuild.getPreviousBuild();
+            if(listener != null ) listener.getLogger().append("[ci-game] Previous Build ID: " + previousBuild.getId()+ "\n");
+            if(listener != null ) listener.getLogger().append("[ci-game] Previous Display Name: " + previousBuild.getFullDisplayName()+ "\n");
+
+            accountableBuilds.add(previousBuild);
+            previousBuild = previousBuild.getPreviousBuild();
         }
-        
+
         Set<User> players = new TreeSet<User>(usernameIsCasesensitive ? null : new UsernameCaseinsensitiveComparator());
         for (AbstractBuild<?, ?> b : accountableBuilds) {
-        	ChangeLogSet<? extends Entry> changeSet = b.getChangeSet();
-        	if (changeSet != null) {
-	        	for (Entry e : changeSet) {
-	        		players.add(e.getAuthor());
-	        	}
-        	}
+            ChangeLogSet<? extends Entry> changeSet = b.getChangeSet();
+            if (changeSet != null) {
+                for (Entry e : changeSet) {
+                    players.add(e.getAuthor());
+                }
+            }
         }
-        
-        return updateUserScores(players, sc.getTotalPoints(), accountableBuilds);
+        sendStarScore(build,players, sc , listener,ideasRockStarURI);
+        return updateUserScores(players, sc.getTotalPoints(), accountableBuilds, listener);
     }
 
+    private static AbstractBuild getUpstreamByCause(AbstractBuild build) {
+        for(Cause cause: (List<Cause>) build.getCauses()){
+            if(cause instanceof Cause.UpstreamCause) {
+                TopLevelItem upstreamProject = Hudson.getInstance().getItemByFullName(((Cause.UpstreamCause)cause).getUpstreamProject(), TopLevelItem.class);
+                if(upstreamProject instanceof AbstractProject){
+                    int buildId = ((Cause.UpstreamCause)cause).getUpstreamBuild();
+                    Run run = ((AbstractProject) upstreamProject).getBuildByNumber(buildId);
+                    if(run instanceof AbstractBuild){
+                        return (AbstractBuild) run;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private void sendStarScore(AbstractBuild<?, ?>  build, Set<User> players, ScoreCard sc, BuildListener listener, String ideasRockStarURI){
+        if (sc.getTotalPoints() != 0) {
+
+                try {
+                    Collection<Score> scores = sc.getScores();
+                    for(Score score:scores){
+                        if(upstreamBuild != null && score.getDescription().equals("The build was successful")){
+                            continue;
+                        }
+
+                        new GalaxyUpdater(ideasRockStarURI).update(players,score.getValue(),"Build:"+build.getFullDisplayName()+":"+score.getDescription(), listener, score.getBadge());
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+        }
+
+    }
     /**
      * Add the score to the users that have committed code in the change set
-     * 
+     *
      *
      * @param score the score that the build was worth
      * @param accountableBuilds the builds for which the {@code score} is awarded for.
      * @throws IOException thrown if the property could not be added to the user object.
      * @return true, if any user scores was updated; false, otherwise
      */
-    private boolean updateUserScores(Set<User> players, double score, List<AbstractBuild<?, ?>> accountableBuilds) throws IOException {
+
+    private boolean updateUserScores(Set<User> players, double score, List<AbstractBuild<?, ?>> accountableBuilds, BuildListener listener) throws IOException {
         if (score != 0) {
             for (User user : players) {
                 UserScoreProperty property = user.getProperty(UserScoreProperty.class);

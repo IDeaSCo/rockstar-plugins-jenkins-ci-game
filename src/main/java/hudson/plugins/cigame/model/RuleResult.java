@@ -7,20 +7,31 @@ package hudson.plugins.cigame.model;
 public class RuleResult<T> {
     public static final RuleResult<?> EMPTY_RESULT = new EmptyRuleResult();
     
-    public static final RuleResult<Integer> EMPTY_INT_RESULT = new RuleResult<Integer>(0.0, "", Integer.valueOf(0));
+    public static final RuleResult<Integer> EMPTY_INT_RESULT = new RuleResult<Integer>(0.0, "",Integer.valueOf(0),"");
     
     private final double points;
     private final String description;
+    private final String badge;
     private T additionalData;
 
+    public String getBadge(){
+        return badge;
+    }
+
     public RuleResult(double points, String description) {
-        this(points, description, null);
+        this(points, description, null, Badge.DEFAULT );
+    }
+
+    public RuleResult(double points, String description, T additionalData) {
+        this(points, description, additionalData, Badge.DEFAULT);
     }
     
-    public RuleResult(double points, String description, T additionalData) {
+    public RuleResult(double points, String description, T additionalData, String badge) {
         this.points = points;
         this.description = description;
         this.additionalData = additionalData;
+        this.badge=badge;
+
     }
     
     /**
@@ -79,13 +90,14 @@ public class RuleResult<T> {
             return false;
         return true;
     }
-    
+
+
+
     private static class EmptyRuleResult extends RuleResult<Void> {
         private EmptyRuleResult() {
-            super(0, "");
+            super(0,"", null,"");
         }
 
-        @Override
         public String getDescription() {
             throw new UnsupportedOperationException("Empty rule result should not be used.");
         }

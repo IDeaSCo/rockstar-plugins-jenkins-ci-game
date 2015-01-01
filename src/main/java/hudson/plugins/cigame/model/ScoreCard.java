@@ -44,7 +44,7 @@ public class ScoreCard {
 	        	}
 	            RuleResult<?> result = evaluate(build, rule);
 	            if ((result != null) && (result.getPoints() != 0)) {
-	                Score score = new Score(ruleset.getName(), rule.getName(), result.getPoints(), result.getDescription());
+	                Score score = new Score(ruleset.getName(), rule.getName(), result.getPoints(), result.getDescription(), result.getBadge());
 	                scoresForBuild.add(score);
 	                if (listener != null) {
 	            		listener.getLogger().append("[ci-game] scored: " + score.getValue() + "\n");

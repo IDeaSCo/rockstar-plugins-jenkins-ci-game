@@ -1,5 +1,6 @@
 package hudson.plugins.cigame.rules.unittesting;
 
+import hudson.plugins.cigame.model.Badge;
 import jenkins.model.Jenkins;
 import hudson.plugins.cigame.GameDescriptor;
 import hudson.plugins.cigame.model.RuleResult;
@@ -34,7 +35,7 @@ public class DecreasingFailedTestsRule extends AbstractFailedTestsRule {
             failedTestDiff = -failedTestDiff;
             return new RuleResult<Integer>(failedTestDiff * getPoints(),
                                            Messages.UnitTestingRuleSet_DecreasingFailedRule_Count(failedTestDiff),
-                                           failedTestDiff);
+                                           failedTestDiff, Badge.TEST_CHAMP);
         }
         return null;
     }

@@ -5,6 +5,7 @@ import hudson.model.AbstractBuild;
 import hudson.model.Result;
 import hudson.plugins.analysis.util.model.Priority;
 import hudson.plugins.cigame.model.AggregatableRule;
+import hudson.plugins.cigame.model.Badge;
 import hudson.plugins.cigame.model.RuleResult;
 import hudson.plugins.cigame.util.ActionRetriever;
 import hudson.plugins.tasks.TasksResultAction;
@@ -83,12 +84,12 @@ public class DefaultOpenTasksRule implements AggregatableRule<Integer> {
     	if (numberOfNewAnnotations > 0) {
             return new RuleResult<Integer>(numberOfNewAnnotations * pointsForAddingAnAnnotation, 
                     Messages.OpenTasksRule_DefaultRule_NewTasksCount(numberOfNewAnnotations, tasksPriority.name()),
-                    numberOfNewAnnotations);
+                    numberOfNewAnnotations, Badge.CODE_VIOLATOR);
         }
         if (numberOfNewAnnotations < 0) {
             return new RuleResult<Integer>((numberOfNewAnnotations * -1) * pointsForRemovingAnAnnotation, 
                     Messages.OpenTasksRule_DefaultRule_FixedTasksCount(numberOfNewAnnotations * -1, tasksPriority.name()),
-                    numberOfNewAnnotations);
+                    numberOfNewAnnotations, Badge.CODE_SAVIOUR);
         }
         
         return RuleResult.EMPTY_INT_RESULT;
