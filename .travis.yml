@@ -7,7 +7,7 @@ branches:
 only:
 - master
 
-install: mvn clean package
+install: mvn clean install
 
 deploy:
   provider: releases
