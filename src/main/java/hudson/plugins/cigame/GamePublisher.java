@@ -58,7 +58,7 @@ public class GamePublisher extends Notifier {
         List<AbstractBuild<?, ?>> accountableBuilds = new ArrayList<AbstractBuild<?,?>>();
         accountableBuilds.add(build);
 
-        upstreamBuild = getUpstreamByCause(build);
+        upstreamBuild = getUpstreamByCause(build, listener);
         if(upstreamBuild!= null) {
             accountableBuilds.add(upstreamBuild);
             ChangeLogSet<? extends Entry> changeSet = upstreamBuild.getChangeSet();
@@ -91,20 +91,28 @@ public class GamePublisher extends Notifier {
         return updateUserScores(players, sc.getTotalPoints(), accountableBuilds, listener);
     }
 
-    private static AbstractBuild getUpstreamByCause(AbstractBuild build) {
-        for(Cause cause: (List<Cause>) build.getCauses()){
+    private static AbstractBuild getBuildByUpstreamCause(List<Cause> causes,BuildListener listener ){
+        for(Cause cause: (List<Cause>) causes){
             if(cause instanceof Cause.UpstreamCause) {
                 TopLevelItem upstreamProject = Hudson.getInstance().getItemByFullName(((Cause.UpstreamCause)cause).getUpstreamProject(), TopLevelItem.class);
                 if(upstreamProject instanceof AbstractProject){
                     int buildId = ((Cause.UpstreamCause)cause).getUpstreamBuild();
                     Run run = ((AbstractProject) upstreamProject).getBuildByNumber(buildId);
-                    if(run instanceof AbstractBuild){
+                    System.out.println();
+                    AbstractBuild upstreamRun = getBuildByUpstreamCause(run.getCauses(),listener);
+                    if(upstreamRun == null) {
                         return (AbstractBuild) run;
+                    }else{
+                        return upstreamRun;
                     }
                 }
             }
         }
         return null;
+
+    }
+    private static AbstractBuild getUpstreamByCause(AbstractBuild build, BuildListener listener) {
+        return getBuildByUpstreamCause(build.getCauses(),listener);
     }
 
     private void sendStarScore(AbstractBuild<?, ?>  build, Set<User> players, ScoreCard sc, BuildListener listener, String ideasRockStarURI){

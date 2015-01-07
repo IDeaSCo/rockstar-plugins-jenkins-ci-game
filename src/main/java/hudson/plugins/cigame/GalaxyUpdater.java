@@ -32,20 +32,19 @@ public class GalaxyUpdater {
     	listener.getLogger().append("[ci-game] about to post STAR status\n");
         for(User player:players) {
             try {
-        	
-            	listener.getLogger().append("[ci-game] finding email address for player: " + player + "\n");     
+                UserScoreProperty property = player.getProperty(UserScoreProperty.class);
+                listener.getLogger().append("[ci-game] finding email address for player: " + player + "... ");
+                String emailId = MailAddressResolver.resolve(player);
+                listener.getLogger().append(emailId + "\n");
+
 	            URL obj = new URL(ideasRockStarURI);
 	            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 	    		listener.getLogger().append("[ci-game] posting to URL: " + ideasRockStarURI + "\n");
-	
+
 	            con.setRequestMethod("POST");
 	            con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 	            con.setRequestProperty("Content-Type", "application/json");
-	
-	
-	            UserScoreProperty property = player.getProperty(UserScoreProperty.class);
-	            String emailId = MailAddressResolver.resolve(player);
-	
+
 	            String urlParameters = "{ \"fromUserEmailID\":\"jenkins.user@ideas.com\", \"toUserEmailID\":\"" +
 	                    emailId+"\"" +
 	                    ",\"trohpies\":" +
@@ -53,29 +52,29 @@ public class GalaxyUpdater {
                         ",\"badgeName\":" +
                         "\""+badge +"\""+
 	                    ",\"reason\":\"Jenkins:"+reason+"\"}";
-	
+
 	            con.setRequestProperty("Content-Length", "" + urlParameters.length());
-	
+
 	            System.out.println("\nSending 'POST' request to URL : " + ideasRockStarURI);
 	            System.out.println("Post parameters : " + urlParameters);
 	            listener.getLogger().append("[ci-game] Post parameters: " + urlParameters + "\n");
-	
+
 	            // Send post request
 	            con.setDoOutput(true);
 	            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
 	            wr.writeBytes(urlParameters);
 	            wr.flush();
 	            wr.close();
-	
+
 	            int responseCode = con.getResponseCode();
-	
-	            
+
+
 	            listener.getLogger().append("[ci-game] Response Code : " + responseCode+"\n");
-	
+
 	            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 	            String inputLine;
 	            StringBuffer response = new StringBuffer();
-	
+
 	            while ((inputLine = in.readLine()) != null) {
 	                response.append(inputLine);
 	            }
