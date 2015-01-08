@@ -7,7 +7,7 @@ branches:
 only:
 - master
 
-install: mvn clean package -Dmaven.test.skip=true
+install: mvn clean package
 
 script: cd target && zip ci-game.hpi.zip ci-game.hpi && cd ..
 
