@@ -35,7 +35,7 @@ public class GamePublisher extends Notifier {
     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher,
                            BuildListener listener) throws InterruptedException, IOException {
 
-        perform(build, getDescriptor().getRuleBook(), getDescriptor().getNamesAreCaseSensitive(), listener, getDescriptor().getIdeasRockStarURI());
+        perform(build, getDescriptor().getRuleBook(), getDescriptor().getNamesAreCaseSensitive(), listener, getDescriptor().getIdeasRockStarURI(), getDescriptor().getIdeasRockStarEmail());
         return true;
     }
 
@@ -48,7 +48,7 @@ public class GamePublisher extends Notifier {
      * @return true, if any user scores were updated; false, otherwise
      * @throws IOException thrown if there was a problem setting a user property
      */
-    boolean perform(AbstractBuild<?, ?> build, RuleBook ruleBook, boolean usernameIsCasesensitive, BuildListener listener, String ideasRockStarURI) throws IOException {
+    boolean perform(AbstractBuild<?, ?> build, RuleBook ruleBook, boolean usernameIsCasesensitive, BuildListener listener, String ideasRockStarURI, String ideasRockStarEmail) throws IOException {
         ScoreCard sc = new ScoreCard();
         sc.record(build, ruleBook, listener);
 
@@ -87,7 +87,7 @@ public class GamePublisher extends Notifier {
                 }
             }
         }
-        sendStarScore(build,players, sc , listener,ideasRockStarURI);
+        sendStarScore(build,players, sc , listener,ideasRockStarURI, ideasRockStarEmail);
         return updateUserScores(players, sc.getTotalPoints(), accountableBuilds, listener);
     }
 
@@ -115,7 +115,7 @@ public class GamePublisher extends Notifier {
         return getBuildByUpstreamCause(build.getCauses(),listener);
     }
 
-    private void sendStarScore(AbstractBuild<?, ?>  build, Set<User> players, ScoreCard sc, BuildListener listener, String ideasRockStarURI){
+    private void sendStarScore(AbstractBuild<?, ?>  build, Set<User> players, ScoreCard sc, BuildListener listener, String ideasRockStarURI, String ideasRockStarEmail){
         if (sc.getTotalPoints() != 0) {
 
                 try {
@@ -125,7 +125,7 @@ public class GamePublisher extends Notifier {
                             continue;
                         }
 
-                        new GalaxyUpdater(ideasRockStarURI).update(players,score.getValue(),"Build:"+build.getFullDisplayName()+":"+score.getDescription(), listener, score.getBadge());
+                        new GalaxyUpdater(ideasRockStarURI, ideasRockStarEmail).update(players,score.getValue(),"Build:"+build.getFullDisplayName()+":"+score.getDescription(), listener, score.getBadge());
                     }
 
                 } catch (Exception e) {

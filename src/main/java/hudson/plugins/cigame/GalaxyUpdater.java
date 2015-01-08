@@ -19,10 +19,12 @@ import java.util.Set;
  */
 public class GalaxyUpdater {
     private String ideasRockStarURI = "http://localhost:13082/star";
+    private String ideasRockStarEmail= "jenkins.user@ideas.com";
 
     @DataBoundConstructor
-    public GalaxyUpdater(String ideasRockStarURI){
+    public GalaxyUpdater(String ideasRockStarURI, String ideasRockStarEmail){
         this.ideasRockStarURI=ideasRockStarURI;
+        this.ideasRockStarEmail=ideasRockStarEmail;
     }
     public GalaxyUpdater(){
 
@@ -45,9 +47,9 @@ public class GalaxyUpdater {
 	            con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 	            con.setRequestProperty("Content-Type", "application/json");
 
-	            String urlParameters = "{ \"fromUserEmailID\":\"jenkins.user@ideas.com\", \"toUserEmailID\":\"" +
+	            String urlParameters = "{ \"fromUserEmailID\":\""+ideasRockStarEmail+"\", \"toUserEmailID\":\"" +
 	                    emailId+"\"" +
-	                    ",\"trohpies\":" +
+	                    ",\"trophies\":" +
 	                    score +
                         ",\"badgeName\":" +
                         "\""+badge +"\""+

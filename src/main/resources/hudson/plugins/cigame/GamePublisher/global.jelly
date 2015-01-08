@@ -4,7 +4,8 @@
 		<f:entry title="${%cigame.namesarecasesensitive}" help="/plugin/ci-game/namesarecasesensitive.html">
 			<f:checkbox field="namesAreCaseSensitive" />
 		</f:entry>
-		<f:entry title="${%cigame.ideasrockstaruri}" field="ideasRockStarURI" help="/plugin/ci-game/ideasrockstaruri.html"><f:textbox /> </f:entry>
+		<f:entry title="${%cigame.ideasrockstaruri}" field="ideasRockStarURI" help="/plugin/ci-game/ideasrockstaruri.html" ><f:textbox default="http://localhost:80/star"/> </f:entry>
+		<f:entry title="${%cigame.ideasrockstaremail}" field="ideasRockStarEmail" help="/plugin/ci-game/ideasrockstaremail.html" ><f:textbox default="jenkins.user@ideas.com"/></f:entry>
 		<f:advanced title="${%cigame.unittests.subtitle}">
 			<f:entry title="${%cigame.unittests.subtitle}">
 				<table width="100%" style="border: 1px solid #aaa">

@@ -29,6 +29,8 @@ public class GameDescriptor extends BuildStepDescriptor<Publisher> {
     private transient RuleBook rulebook;
     private boolean namesAreCaseSensitive = true;
     private String ideasRockStarURI= "";
+    private String ideasRockStarEmail= "";
+
     
     private int passedTestIncreasingPoints = 1;
     private int passedTestDecreasingPoints = 0;
@@ -105,6 +107,16 @@ public class GameDescriptor extends BuildStepDescriptor<Publisher> {
     public void setIdeasRockStarURI(String ideasRockStarURI) {
         this.ideasRockStarURI = ideasRockStarURI;
     }
+
+    public String getIdeasRockStarEmail() {
+        return ideasRockStarEmail;
+    }
+
+    public void setIdeasRockStarEmail(String ideasRockStarEmail) {
+        this.ideasRockStarEmail = ideasRockStarEmail;
+    }
+
+
     @Override
     public boolean isApplicable(Class<? extends AbstractProject> arg0) {
         return true;
