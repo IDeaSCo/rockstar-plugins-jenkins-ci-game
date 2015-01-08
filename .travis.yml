@@ -7,7 +7,7 @@ branches:
 only:
 - master
 
-install: mvn clean package
+install: mvn -l build.log clean package
 
 script: cd target && zip ci-game.hpi.zip ci-game.hpi && cd ..
 
