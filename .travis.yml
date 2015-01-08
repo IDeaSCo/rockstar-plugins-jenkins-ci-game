@@ -9,7 +9,7 @@ only:
 
 install: mvn clean package -Dmaven.test.skip=true
 
-script: ls && pwd && cd target & zip ci-game.hpi.zip ci-game.hpi & cd ..
+script: cd target && zip ci-game.hpi.zip ci-game.hpi && cd ..
 
 deploy:
   provider: releases
