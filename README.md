@@ -7,6 +7,7 @@ This plugin introduces a game where users gets point on improving the builds.The
 
 ##Configuration
 - New parameter "IDeaS Rock Star URI" added to "Continuous integration game" section of Jenkins Global Configuration. The value of this parameter is the link to the Rock Star Application e.g. http://mycompany:80/rockstar
+- New parameter "IDeaS Rock Star Email" added to "Continuous integration game" section of Jenkins Global Configuration. The value of this parameter is the email address that Jenkins should use to pass on to Rock Star Application.
 
 ####Version requirements
 Note that the plugin version 1.13+ requires Hudson 1.320 to work and the following plugin versions:
