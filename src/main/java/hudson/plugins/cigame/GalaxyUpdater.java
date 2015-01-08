@@ -18,7 +18,7 @@ import java.util.Set;
  * Created by idnvge on 9/26/2014.
  */
 public class GalaxyUpdater {
-    private String ideasRockStarURI = "http://localhost:13082/star/trophy/save";
+    private String ideasRockStarURI = "http://localhost:13082/star";
 
     @DataBoundConstructor
     public GalaxyUpdater(String ideasRockStarURI){
@@ -37,7 +37,7 @@ public class GalaxyUpdater {
                 String emailId = MailAddressResolver.resolve(player);
                 listener.getLogger().append(emailId + "\n");
 
-	            URL obj = new URL(ideasRockStarURI);
+	            URL obj = new URL(ideasRockStarURI+"/trophy/save");
 	            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 	    		listener.getLogger().append("[ci-game] posting to URL: " + ideasRockStarURI + "\n");
 
