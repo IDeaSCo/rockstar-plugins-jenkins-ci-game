@@ -7,14 +7,15 @@ branches:
 only:
 - master
 
-install: mvn clean install
+install: mvn clean package
+
+script: cd target & zip ci-game.hpi.zip ci-game.hpi & cd ..
 
 deploy:
   provider: releases
   api-key: "ae813b6182d865c1019eaccee6f82bb89ab95500"
   file: 
-   - "1.21/ci-game-1.21.hpi"
-   - "target/ci-game.hpi"
+   - "target/ci-game.hpi.zip"
   skip_cleanup: true
   on:
     tags: true
