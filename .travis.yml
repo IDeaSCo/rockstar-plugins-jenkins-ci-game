@@ -11,7 +11,7 @@ install: mvn clean install
 
 deploy:
   provider: releases
-  api-key: "6148c234fd62f626501004ae5867566bb25211df"
+  api-key: "ae813b6182d865c1019eaccee6f82bb89ab95500"
   file: 
    - "1.21/ci-game-1.21.hpi"
    - "target/ci-game.hpi"
