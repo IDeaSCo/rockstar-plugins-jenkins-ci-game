@@ -17,21 +17,21 @@ import java.util.Set;
 /**
  * Created by idnvge on 9/26/2014.
  */
-public class GalaxyUpdater {
+public class RockStarUpdater {
     private String ideasRockStarURI = "http://localhost:13082/star";
     private String ideasRockStarEmail= "jenkins.user@ideas.com";
 
     @DataBoundConstructor
-    public GalaxyUpdater(String ideasRockStarURI, String ideasRockStarEmail){
+    public RockStarUpdater(String ideasRockStarURI, String ideasRockStarEmail){
         this.ideasRockStarURI=ideasRockStarURI;
         this.ideasRockStarEmail=ideasRockStarEmail;
     }
-    public GalaxyUpdater(){
+    public RockStarUpdater(){
 
     }
     public boolean update(Set<User> players, double score, String reason, BuildListener listener, String badge) throws IOException, ClassNotFoundException {
 
-    	listener.getLogger().append("[ci-game] about to post STAR status\n");
+    	listener.getLogger().append("[ci-game] about to post Rock Star status\n");
         for(User player:players) {
             try {
                 UserScoreProperty property = player.getProperty(UserScoreProperty.class);

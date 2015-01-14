@@ -35,7 +35,7 @@ public class DecreasingPassedTestsRule extends AbstractPassedTestsRule {
             passedTestDiff = -passedTestDiff;
             return new RuleResult<Integer>(passedTestDiff * getPoints(),
                                            Messages.UnitTestingRuleSet_DecreasingPassedRule_Count(passedTestDiff),
-                                           passedTestDiff, Badge.TEST_CHAMP);
+                                           passedTestDiff, Badge.BUILD_BREAKER);
         }
         return null;
     }

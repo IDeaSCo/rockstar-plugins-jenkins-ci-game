@@ -43,6 +43,7 @@ public class GamePublisherTest {
         verify(actions).add(isA(ScoreCardAction.class));
         verify(build).getChangeSet();
         verify(build).getPreviousBuild();
+        verify(build).getCauses();
         verifyNoMoreInteractions(build);
     }
 

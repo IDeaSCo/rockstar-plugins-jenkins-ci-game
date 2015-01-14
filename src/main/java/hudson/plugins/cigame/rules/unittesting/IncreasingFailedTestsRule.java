@@ -35,7 +35,7 @@ public class IncreasingFailedTestsRule extends AbstractFailedTestsRule {
         if (failingTestDiff > 0) {
             return new RuleResult<Integer>(failingTestDiff * getPoints(), 
                     Messages.UnitTestingRuleSet_IncreasingFailedRule_Count(failingTestDiff),
-                    failingTestDiff, Badge.TEST_CHAMP);
+                    failingTestDiff, Badge.BUILD_BREAKER);
         }
         return null;
     }

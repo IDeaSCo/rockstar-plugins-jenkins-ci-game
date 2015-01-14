@@ -1,6 +1,7 @@
 package hudson.plugins.cigame.rules.build;
 
 import hudson.model.AbstractBuild;
+import hudson.model.BuildListener;
 import hudson.model.Result;
 import hudson.plugins.cigame.model.Badge;
 import hudson.plugins.cigame.model.Rule;
@@ -15,7 +16,7 @@ public class BuildResultRule implements Rule {
     private int successPoints;
 
     public BuildResultRule() {
-        this(1, 0);
+        this(1, -10);
     }
     public BuildResultRule(int successPoints, int failurePoints) {
         this.successPoints = successPoints;
@@ -36,6 +37,7 @@ public class BuildResultRule implements Rule {
     }
 
     RuleResult evaluate(Result result, Result lastResult) {
+
         if (result == Result.SUCCESS) {
             return new RuleResult( successPoints, Messages.BuildRuleSet_BuildSuccess(), null, Badge.FREQUENT_CODE_CHECKER); //$NON-NLS-1$
         }

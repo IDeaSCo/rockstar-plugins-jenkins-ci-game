@@ -5,6 +5,7 @@ import hudson.maven.MavenModule;
 import hudson.maven.MavenModuleSetBuild;
 import hudson.model.BuildListener;
 import hudson.model.AbstractBuild;
+import hudson.model.Result;
 import hudson.plugins.cigame.util.BuildUtil;
 
 import java.util.ArrayList;
@@ -42,7 +43,8 @@ public class ScoreCard {
 	        	if (listener != null) {
 	        		listener.getLogger().append("[ci-game] evaluating rule: " + rule.getName() + "\n");
 	        	}
-	            RuleResult<?> result = evaluate(build, rule);
+	            RuleResult<?> result = evaluate(build, rule, listener);
+
 	            if ((result != null) && (result.getPoints() != 0)) {
 	                Score score = new Score(ruleset.getName(), rule.getName(), result.getPoints(), result.getDescription(), result.getBadge());
 	                scoresForBuild.add(score);
@@ -68,8 +70,10 @@ public class ScoreCard {
     }
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    RuleResult<?> evaluate(AbstractBuild<?, ?> build, Rule rule) {
+    RuleResult<?> evaluate(AbstractBuild<?, ?> build, Rule rule, BuildListener listener) {
+
         if (rule instanceof AggregatableRule<?> && build instanceof MavenModuleSetBuild) {
+
             AggregatableRule aRule = (AggregatableRule<?>)rule;
             MavenModuleSetBuild mavenModuleSetBuild = (MavenModuleSetBuild)build;
                 

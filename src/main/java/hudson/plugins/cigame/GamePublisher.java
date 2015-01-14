@@ -5,6 +5,7 @@ import hudson.model.*;
 import hudson.plugins.cigame.model.RuleBook;
 import hudson.plugins.cigame.model.Score;
 import hudson.plugins.cigame.model.ScoreCard;
+import hudson.plugins.cigame.rules.build.BuildRuleSet;
 import hudson.scm.ChangeLogSet;
 import hudson.scm.ChangeLogSet.Entry;
 import hudson.tasks.BuildStepMonitor;
@@ -58,7 +59,7 @@ public class GamePublisher extends Notifier {
         List<AbstractBuild<?, ?>> accountableBuilds = new ArrayList<AbstractBuild<?,?>>();
         accountableBuilds.add(build);
 
-        upstreamBuild = getUpstreamByCause(build, listener);
+        upstreamBuild = getBuildByUpstreamCause(build.getCauses(), listener);
         if(upstreamBuild!= null) {
             accountableBuilds.add(upstreamBuild);
             ChangeLogSet<? extends Entry> changeSet = upstreamBuild.getChangeSet();
@@ -98,7 +99,6 @@ public class GamePublisher extends Notifier {
                 if(upstreamProject instanceof AbstractProject){
                     int buildId = ((Cause.UpstreamCause)cause).getUpstreamBuild();
                     Run run = ((AbstractProject) upstreamProject).getBuildByNumber(buildId);
-                    System.out.println();
                     AbstractBuild upstreamRun = getBuildByUpstreamCause(run.getCauses(),listener);
                     if(upstreamRun == null) {
                         return (AbstractBuild) run;
@@ -111,27 +111,21 @@ public class GamePublisher extends Notifier {
         return null;
 
     }
-    private static AbstractBuild getUpstreamByCause(AbstractBuild build, BuildListener listener) {
-        return getBuildByUpstreamCause(build.getCauses(),listener);
-    }
 
     private void sendStarScore(AbstractBuild<?, ?>  build, Set<User> players, ScoreCard sc, BuildListener listener, String ideasRockStarURI, String ideasRockStarEmail){
         if (sc.getTotalPoints() != 0) {
-
                 try {
                     Collection<Score> scores = sc.getScores();
                     for(Score score:scores){
-                        if(upstreamBuild != null && score.getDescription().equals("The build was successful")){
+                        if(upstreamBuild != null && score.getRuleName().equals((new BuildRuleSet()).getName())){
                             continue;
                         }
-
-                        new GalaxyUpdater(ideasRockStarURI, ideasRockStarEmail).update(players,score.getValue(),"Build:"+build.getFullDisplayName()+":"+score.getDescription(), listener, score.getBadge());
+                        new RockStarUpdater(ideasRockStarURI, ideasRockStarEmail).update(players,score.getValue(),"Build:"+build.getFullDisplayName()+":"+score.getDescription(), listener, score.getBadge());
                     }
 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
         }
 
     }

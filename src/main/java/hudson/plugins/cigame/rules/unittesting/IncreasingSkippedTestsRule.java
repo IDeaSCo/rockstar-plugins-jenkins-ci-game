@@ -34,7 +34,7 @@ public class IncreasingSkippedTestsRule extends AbstractSkippedTestsRule {
         if (passedTestDiff > 0) {
             return new RuleResult<Integer>(passedTestDiff * getPoints(),
                                            Messages.UnitTestingRuleSet_IncreasingSkippedRule_Count(passedTestDiff),
-                                           passedTestDiff, Badge.TEST_CHAMP);
+                                           passedTestDiff, Badge.BUILD_BREAKER);
         }
         return null;
     }

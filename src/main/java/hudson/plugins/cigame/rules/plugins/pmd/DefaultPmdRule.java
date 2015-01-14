@@ -34,11 +34,11 @@ public class DefaultPmdRule implements Rule {
 
                 if (delta < 0) {
                     return new RuleResult(Math.abs(delta) * pointsForRemovingAnAnnotation, 
-                            Messages.PmdRuleSet_DefaultRule_FixedWarningsCount(Math.abs(delta), tasksPriority.name()),Badge.CODE_VIOLATOR); //$NON-NLS-1$
+                            Messages.PmdRuleSet_DefaultRule_FixedWarningsCount(Math.abs(delta), tasksPriority.name()),Badge.CODE_SAVIOUR); //$NON-NLS-1$
                 }
                 if (delta > 0) {
                     return new RuleResult(Math.abs(delta) * pointsForAddingAnAnnotation, 
-                            Messages.PmdRuleSet_DefaultRule_NewWarningsCount(Math.abs(delta), tasksPriority.name()),Badge.CODE_SAVIOUR); //$NON-NLS-1$
+                            Messages.PmdRuleSet_DefaultRule_NewWarningsCount(Math.abs(delta), tasksPriority.name()),Badge.CODE_VIOLATOR); //$NON-NLS-1$
                 }
             }
         }
