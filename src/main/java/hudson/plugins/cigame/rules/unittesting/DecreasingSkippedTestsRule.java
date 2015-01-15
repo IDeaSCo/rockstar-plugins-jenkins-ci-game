@@ -35,7 +35,7 @@ public class DecreasingSkippedTestsRule extends AbstractSkippedTestsRule {
             skippedTestDiff = -skippedTestDiff;
             return new RuleResult<Integer>(skippedTestDiff * getPoints(),
                                            Messages.UnitTestingRuleSet_DecreasingSkippedRule_Count(skippedTestDiff),
-                                           skippedTestDiff, Badge.BUILD_BREAKER);
+                                           skippedTestDiff, Badge.TEST_CHAMP);
         }
         return null;
     }
