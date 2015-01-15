@@ -16,6 +16,7 @@ deploy:
   api-key: "15116853a7ec2b2ba04f9ee612f05941ee9b36d4"
   file: 
    - "target/ci-game.hpi.zip"
+   - "target/ci-game.hpi"
   skip_cleanup: true
   on:
     tags: true
